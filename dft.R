@@ -69,8 +69,8 @@ centerShape <- function(shape, resize = TRUE, size = 5000) {
 #---------------------------------------------------------#
 ## complex dft ----
 
+# https://doi.org/10.1016/B978-0-7506-7444-7.X5036-5
 # SMITH 2002, CHAPTER 31, EQUATION 31-6
-# DOI: https://doi.org/10.1016/B978-0-7506-7444-7.50073-X
 
 # forward complex discrete Fourier transform
 # x is a 2-column matrix containing a set of coordinates
@@ -98,8 +98,8 @@ dft <- function(x) {
       Xk <- addC(Xk, mulC(xn, comp))
     }
     
-    # scaling factor of 1/N is introduced 
-    # to make the reconstructed signal be 
+    # scaling factor of 1/N is introduced.. 
+    # to make the reconstructed signal be.. 
     # identical to the original signal
     X[k, 1] <- (1/N) * Xk@re
     X[k, 2] <- (1/N) * Xk@im
@@ -110,9 +110,9 @@ dft <- function(x) {
 }
 
 
+# https://doi.org/10.1016/B978-0-7506-7444-7.X5036-5
 # SMITH 2002, CHAPTER 31, EQUATION 31-8
 # simplified in accordance with the detailed explanation therein
-# DOI: https://doi.org/10.1016/B978-0-7506-7444-7.50073-X
 
 # inverse complex discrete Fourier transform
 # X is a 3-column matrix containing the result of a dft
@@ -147,13 +147,15 @@ invDft <- function(X, epi = Inf) {
   return(x)
 }
 
+
+# normalization of the Fourier descriptors
 # X is a 3-column matrix containing the result of a dft
 normDft <- function(X) {
   
   N <- nrow(X)
   
-  # reordering the result of a dft by
-  # pairing up the respective descriptors 
+  # reordering the result of a dft by..
+  # pairing up the respective descriptors.. 
   # from the opposite ends of the frequency spectrum
   order <- numeric()
   for(i in 2:(N/2)) {
@@ -163,20 +165,20 @@ normDft <- function(X) {
   
   X <- X[order, ]
   
-  # rescaling the major axis of the first ellipse to 1
-  # and the smaller ellipses accordingly
+  # rescaling the major axis of the first ellipse..
+  # to 1 and the smaller ellipses accordingly
   unit <- sqrt(X[1, 1]^2 + X[1, 2]^2) +
     sqrt(X[2, 1]^2 + X[2, 2]^2)
   X[, 1] <- X[, 1] / unit
   X[, 2] <- X[, 2] / unit
   
-  # using the first ellipse as a reference
+  # saving the first ellipse as a reference
   ref <- invDft(X, epi = 2) 
   
-  # searching the first ellipse 
+  # searching the first ellipse.. 
   # for its farthest point from the centre
   dist <- ref[, 1]^2 + ref[, 2]^2
-  # narrowing the focus of the search
+  # narrowing the focus of the search..
   # to the lower half of the coordinate system
   f <- ref[, 2] < 0
   i <- which(dist[f] == max(dist[f]))
