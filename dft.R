@@ -224,6 +224,9 @@ if(!lib) {install.packages("imager"); library("imager")}
 #---------------------------------------------------------#
 ## shape descriptors ----
 
+# all three files must be in the same directory..
+# as the dft.R script
+
 # loading the raw image of the..
 # A. uniformis depicted on Fig. 1
 img <- load.image("uniformis.jpg")
